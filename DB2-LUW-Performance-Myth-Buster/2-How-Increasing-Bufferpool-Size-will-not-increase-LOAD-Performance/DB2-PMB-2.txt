@@ -1,0 +1,19 @@
+# Author: Harish Pathangay
+# License: CC-BY
+# Date: 2016-12-02
+
+# db2 create db sample
+
+TERM1:
+db2 connect to sample
+db2 "create bufferpool bpdata size 500"
+db2 "CREATE TABLE STAFF(STAFFID INTEGER NOT NULL, NAME VARCHAR(50 OCTETS), SALARY INTEGER, INC INTEGER, NETSAL INTEGER) in DATA"
+db2 load from staff.del of del insert into staff nonrecoverable
+
+db2 "alter bufferpool bpdata size 10000"
+
+TERM2:
+db2 update monitor switches using bufferpool on
+db2pd -db sample -bufferpools 2 -repeat 2
+
+# db2 drop db sample
